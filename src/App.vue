@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AuthStatus from './components/AuthStatus.vue'
 </script>
 
 <template>
@@ -8,7 +9,7 @@
     </div>
 
     <div class="floating-auth">
-      <!-- login / register / user icon -->
+      <AuthStatus />
     </div>
 
     <div class="canvas-area">
