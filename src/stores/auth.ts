@@ -43,5 +43,14 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token')
       localStorage.removeItem('userEmail')
     },
+    async autoLoginDev() {
+      if (import.meta.env.DEV && !this.token) {
+        try {
+          await this.login('test@test.com', '123456')
+        } catch {
+          // usuario de dev no existe todavía, ignora
+        }
+      }
+    },  
   },
 })

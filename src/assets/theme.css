@@ -1,0 +1,71 @@
+/* ======================================================================
+   KEYSTICKERS — VARIABLES DE ESTILO
+   ======================================================================
+   Acá defines background, border, sombra, fuentes y tamaños de los 3
+   paneles SIN tocar el HTML ni la lógica de los componentes .vue.
+   Cada panel .vue ya usa var(--algo) en vez de valores fijos, así que
+   con solo cambiar un valor acá se actualiza en todos lados.
+
+   Este archivo debe importarse UNA vez en tu main.ts, por ejemplo:
+     import './assets/theme.css'
+   ====================================================================== */
+
+:root {
+  /* --------------------------------------------------------------
+     FONDO DE LA PÁGINA (el body, detrás de los 3 paneles)
+     -------------------------------------------------------------- */
+  --page-bg: #faf7f0;
+
+  /* --------------------------------------------------------------
+     COMPARTIDO ENTRE LOS 3 PANELES
+     -------------------------------------------------------------- */
+  --panel-gap: 32px;                     /* separación horizontal entre paneles */
+  --font-body: system-ui, sans-serif;    /* fuente de labels, texto normal */
+  --font-heading: Georgia, serif;        /* fuente de títulos y de las teclas */
+  --text-dark: #2a2a2a;                  /* color de texto principal */
+  --text-muted: #a39a85;                 /* color de texto secundario / labels */
+  --accent: #c17a3d;                     /* color de acento (selección, botón comprar) */
+
+  /* --------------------------------------------------------------
+     PANEL 1 — Controles de alfabeto  (AlphabetControls.vue → .controls-panel)
+     -------------------------------------------------------------- */
+  --controls-bg: #fdfcf9;
+  --controls-border: 1px solid #eae6da;
+  --controls-shadow: none;               /* ej: 0 4px 14px rgba(0,0,0,0.06) */
+  --controls-radius: 26px;
+  --controls-width: 220px;
+  --controls-font-size: 14px;            /* tamaño base del texto del panel */
+
+  /* --------------------------------------------------------------
+     PANEL 2 — Vista previa del teclado  (KeyboardPreview.vue → .keyboard-preview)
+     -------------------------------------------------------------- */
+  --preview-bg: linear-gradient(180deg, #f5f2ea 0%, #ece7db 100%); /* puede ser color plano o degradado */
+  --preview-border: 1px solid #e0dac9;
+  --preview-shadow: none;
+  --preview-radius: 20px;
+  --preview-width: 560px;
+  --preview-key-font-size: 17px;         /* tamaño de la letra dentro de cada tecla */
+
+  /* --------------------------------------------------------------
+     PANEL 3 — Resumen y compra  (PurchasePanel.vue → .purchase-panel)
+     -------------------------------------------------------------- */
+  --purchase-bg: #fdfcf9;
+  --purchase-border: 1px solid #eae6da;
+  --purchase-shadow: none;
+  --purchase-radius: 16px;
+  --purchase-width: 272px;
+  --purchase-font-size: 14px;
+  --purchase-summary-height: 80px; /* alto reservado para el resumen (alfabeto/tecla/color), así el panel no cambia de tamaño al elegir 2 alfabetos */
+
+  /* --------------------------------------------------------------
+     DEBUG — el contenedor que agrupa los 3 paneles es .workspace,
+     dentro de App.vue. Pon acá algo como "2px dashed red" para
+     verlo mientras ajustas márgenes/centrado, y "none" para quitarlo.
+     -------------------------------------------------------------- */
+  --debug-border: none;
+}
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+}
