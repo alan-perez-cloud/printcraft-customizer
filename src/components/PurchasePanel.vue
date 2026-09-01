@@ -113,10 +113,11 @@ async function placeOrder() {
 <style scoped>
 /* Panel 3 — variables en theme.css bajo "PANEL 3 — Resumen y compra" */
 .purchase-panel {
-  background: var(--purchase-bg);
-  border: var(--purchase-border);
+  background: var(--panel);
+  
+  border: var(--border-component);
   box-shadow: var(--purchase-shadow);
-  border-radius: var(--purchase-radius);
+  border-radius: var(--r-xl);
   font-size: var(--purchase-font-size);
   font-family: var(--font-body);
   padding: 24px;
@@ -127,10 +128,12 @@ async function placeOrder() {
 }
 
 .panel-title {
-  font-family: var(--font-heading);
-  font-size: 1.15em;
+  font-family: var(--font-display-family);
+  font-size: var(--font-size);
+  text-transform: uppercase;
+  color: var(--ink);
   font-weight: 600;
-  color: #2a2a2a;
+  
   margin: 0;
 }
 
@@ -193,7 +196,7 @@ async function placeOrder() {
 
 .product-option {
   text-align: left;
-  background: #fff;
+  background: var(--panel);
   border: 1.5px solid #eae6da;
   border-radius: 12px;
   padding: 12px 14px;
@@ -239,8 +242,8 @@ async function placeOrder() {
 }
 
 .cta-btn {
-  background: #c17a3d;
-  color: #fdfcf9;
+  background: var(--accent);
+  color: var(--accent-fg);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -248,7 +251,7 @@ async function placeOrder() {
   font-weight: 700;
   cursor: pointer;
   transition: filter 0.15s;
-  font-family: inherit;
+  font-family: var(--font-body);
 }
 
 .cta-btn:hover:not(:disabled) {

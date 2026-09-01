@@ -14,58 +14,33 @@
   /* --------------------------------------------------------------
      FONDO DE LA PÁGINA (el body, detrás de los 3 paneles)
      -------------------------------------------------------------- */
-  --page-bg: #faf7f0;
-
-  /* --------------------------------------------------------------
-     COMPARTIDO ENTRE LOS 3 PANELES
-     -------------------------------------------------------------- */
-  --panel-gap: 32px;                     /* separación horizontal entre paneles */
-  --font-body: system-ui, sans-serif;    /* fuente de labels, texto normal */
-  --font-heading: Georgia, serif;        /* fuente de títulos y de las teclas */
-  --text-dark: #2a2a2a;                  /* color de texto principal */
-  --text-muted: #a39a85;                 /* color de texto secundario / labels */
-  --accent: #c17a3d;                     /* color de acento (selección, botón comprar) */
-
-  /* --------------------------------------------------------------
-     PANEL 1 — Controles de alfabeto  (AlphabetControls.vue → .controls-panel)
-     -------------------------------------------------------------- */
-  --controls-bg: #fdfcf9;
-  --controls-border: 1px solid #eae6da;
-  --controls-shadow: none;               /* ej: 0 4px 14px rgba(0,0,0,0.06) */
-  --controls-radius: 26px;
-  --controls-width: 220px;
-  --controls-font-size: 14px;            /* tamaño base del texto del panel */
-
-  /* --------------------------------------------------------------
-     PANEL 2 — Vista previa del teclado  (KeyboardPreview.vue → .keyboard-preview)
-     -------------------------------------------------------------- */
-  --preview-bg: linear-gradient(180deg, #f5f2ea 0%, #ece7db 100%); /* puede ser color plano o degradado */
-  --preview-border: 1px solid #e0dac9;
-  --preview-shadow: none;
-  --preview-radius: 20px;
-  --preview-width: 560px;
-  --preview-key-font-size: 17px;         /* tamaño de la letra dentro de cada tecla */
-
-  /* --------------------------------------------------------------
-     PANEL 3 — Resumen y compra  (PurchasePanel.vue → .purchase-panel)
-     -------------------------------------------------------------- */
-  --purchase-bg: #fdfcf9;
-  --purchase-border: 1px solid #eae6da;
-  --purchase-shadow: none;
-  --purchase-radius: 16px;
-  --purchase-width: 272px;
-  --purchase-font-size: 14px;
-  --purchase-summary-height: 80px; /* alto reservado para el resumen (alfabeto/tecla/color), así el panel no cambia de tamaño al elegir 2 alfabetos */
-
-  /* --------------------------------------------------------------
-     DEBUG — el contenedor que agrupa los 3 paneles es .workspace,
-     dentro de App.vue. Pon acá algo como "2px dashed red" para
-     verlo mientras ajustas márgenes/centrado, y "none" para quitarlo.
-     -------------------------------------------------------------- */
-  --debug-border: none;
+  --canvas: #d9d4cb;        /* fondo de toda la página */
+--panel: #f7f4ef;         /* fondo de las tarjetas (sidebar, stage, "Tu pedido") */
+--ink: #161513;           /* color de texto principal */
+--muted: #6e6a64;         /* texto secundario (labels) */
+--border-component: 1px solid rgba(118, 119, 118, 0.288); /* borde de los componentes */
+--controls-shadow: var(--accent);  /* sombra de los controles */
+--controls-radius: 12px;   /* radio de esquina — controles */
+--padding-component: 24px;   /* padding de los componentes */
+--subtle: #a39e96;        /* texto terciario, muy tenue */
+--accent: #1e3a34;        /* color del botón "Comprar" y selecciones activas */
+--accent-fg: #f3efe8;     /* color del texto sobre el acento */
+--line: color-mix(in oklab, var(--ink) 10%, transparent); /* borde fino de 1px compartido */
+--stage: #cfc9be;         /* fondo del recuadro de previsualización del teclado */
+--font-display-family: "Syne", system-ui, sans-serif;  /* tipografía de títulos */
+--font-body: "Sora", system-ui, sans-serif;             /* tipografía del resto del texto/UI */
+--font-size: 0.72e;             /* tamaño base de fuente */
+--r-sm: 12px;   /* radio de esquina — elementos chicos */
+--r-md: 16px;   /* radio de esquina — elementos medianos */
+--r-lg: 22px;   /* radio de esquina — tarjetas/botones grandes */
+--r-xl: 28px;   /* radio de esquina — paneles */
+--r-2xl: 36px;  /* radio de esquina — contenedores más grandes (stage) */
+--elev-panel: 0 0 0 1px color-mix(in oklab, var(--ink) 6%, transparent), /* sombra/borde exterior de los 3 divs (panel + stage) */
+  0 16px 40px color-mix(in oklab, var(--ink) 10%, transparent);
 }
 
 body {
   margin: 0;
-  background: var(--page-bg);
+  background: var(--canvas);
+
 }

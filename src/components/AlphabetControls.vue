@@ -87,13 +87,13 @@ const {
 <style scoped>
 /* Panel 1 — variables en theme.css bajo "PANEL 1 — Controles de alfabeto" */
 .controls-panel {
-  background: var(--controls-bg);
-  border: var(--controls-border);
-  box-shadow: var(--controls-shadow);
-  border-radius: var(--controls-radius);
+  background: var(--panel);
+  border: var(--border-component);
+  box-shadow: var(--controls-shadow);  /* cambiar  */ 
+  border-radius: var(--r-xl);
   font-size: var(--controls-font-size);
   font-family: var(--font-body);
-  padding: 24px;
+  padding: var(--padding-component);
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -107,8 +107,9 @@ const {
 }
 
 .field-label {
-  font-size: 0.72em;
-  color: #a39a85;
+  font-family: var(--font-display-family);
+  font-size: var(--font-size);
+  color: var(--ink);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 600;

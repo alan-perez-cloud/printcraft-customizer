@@ -54,10 +54,10 @@ const bottomLetters = [
 <style scoped>
 /* Panel 2 — variables en theme.css bajo "PANEL 2 — Vista previa del teclado" */
 .keyboard-preview {
-  background: var(--preview-bg);
-  border: var(--preview-border);
+  background: var(--panel);
+  border: var(--border-component);
   box-shadow: var(--preview-shadow);
-  border-radius: var(--preview-radius);
+  border-radius: var(--r-xl);
   width: var(--preview-width);
   padding: 40px;
   position: relative;
