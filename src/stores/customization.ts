@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 export type KeycapMode = 'white' | 'black' | 'gray'
 export type ProductType = 'pdf' | 'print'
@@ -27,35 +27,58 @@ export const PRICES: Record<ProductType, number> = {
   print: 18,
 }
 
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
 
 export const useCustomizationStore = defineStore('customization', () => {
   const alphabets = ref<AlphabetOption[]>([])
 
-async function fetchAlphabets() {
-  const res = await fetch(`${API_BASE}/api/v1/alphabets`)
-  if (!res.ok) return
-  const names: string[] = await res.json()
-  alphabets.value = names.map(name => ({ value: name, label: formatLabel(name) }))
-  if (!primaryAlphabet.value && alphabets.value.length > 0) {
-    primaryAlphabet.value = alphabets.value[0].value
+  async function fetchAlphabets() {
+    const res = await fetch(`${API_BASE}/api/v1/alphabets`)
+    if (!res.ok) return
+    const names: string[] = await res.json()
+    alphabets.value = names.map(name => ({ value: name, label: formatLabel(name) }))
+    if (!primaryAlphabet.value && alphabets.value.length > 0) {
+      primaryAlphabet.value = alphabets.value[0].value
+    }
   }
-}
 
   const dualAlphabet = ref(false)
   const primaryAlphabet = ref('')
   const secondaryAlphabet = ref('')
-  const defaultSecondaryColor = '#2a2a2a'
-  const secondaryColor = ref(defaultSecondaryColor)
+
+  const DEFAULT_SECONDARY_COLORS: Record<KeycapMode, string> = {
+    white: '#2f6fed',  // azul brillante
+    gray: '#2f9e44',   // verde
+    black: '#e0995e',  // naranja tenue
+  }
+
   const keycapMode = ref<KeycapMode>('white')
+  const defaultSecondaryColor = computed(() => DEFAULT_SECONDARY_COLORS[keycapMode.value])
+  const secondaryColor = ref(defaultSecondaryColor.value)
+
+  watch(keycapMode, () => {
+    secondaryColor.value = defaultSecondaryColor.value
+  })
 
   function resetSecondaryColor() {
-    secondaryColor.value = defaultSecondaryColor
+    secondaryColor.value = defaultSecondaryColor.value
   }
 
   const secondaryOptions = computed(() =>
     alphabets.value.filter(a => a.value !== primaryAlphabet.value)
   )
+
+  watch(primaryAlphabet, () => {
+  if (secondaryAlphabet.value === primaryAlphabet.value) {
+    secondaryAlphabet.value = secondaryOptions.value[0]?.value || ''
+  }
+})
+
+  watch(dualAlphabet, (enabled) => {
+  if (enabled && !secondaryAlphabet.value && secondaryOptions.value.length > 0) {
+    secondaryAlphabet.value = secondaryOptions.value[0].value
+  }
+})
 
   const primaryLabel = computed(
     () => alphabets.value.find(a => a.value === primaryAlphabet.value)?.label ?? primaryAlphabet.value

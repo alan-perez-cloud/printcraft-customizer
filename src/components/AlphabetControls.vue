@@ -18,6 +18,8 @@ const {
 onMounted(() => {
   store.fetchAlphabets()
 })
+
+
 </script>
 
 <template>

@@ -26,7 +26,7 @@ const ctaLabel = computed(() =>
 
 // API_BASE / el header de auth son un supuesto: ajústalo si tu cliente real
 // (api.ts, el shape de tu store de auth) es distinto a esto.
-const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
 
 async function placeOrder() {
   status.value = 'loading'

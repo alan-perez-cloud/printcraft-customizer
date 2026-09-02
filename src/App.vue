@@ -9,6 +9,9 @@ import { useAuthStore } from './stores/auth'
 
 const auth = useAuthStore()
 onMounted(() => auth.autoLoginDev())
+
+
+
 </script>
 
 <template>
