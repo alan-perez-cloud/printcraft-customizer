@@ -6,6 +6,7 @@ import AlphabetControls from './components/AlphabetControls.vue'
 import PurchasePanel from './components/PurchasePanel.vue'
 import { useAuthStore } from './stores/auth'
 
+
 const auth = useAuthStore()
 onMounted(() => auth.autoLoginDev())
 </script>

@@ -32,7 +32,7 @@ async function placeOrder() {
   status.value = 'loading'
   errorMessage.value = ''
   try {
-    const authHeaders = auth.token ? { Authorization: `Bearer ${auth.token}` } : {}
+    const authHeaders: Record<string, string> = auth.token ? { Authorization: `Bearer ${auth.token}` } : {}
 
     const designRes = await fetch(`${API_BASE}/api/v1/designs`, {
       method: 'POST',
@@ -45,11 +45,18 @@ async function placeOrder() {
     const orderRes = await fetch(`${API_BASE}/api/v1/orders`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...authHeaders },
-      body: JSON.stringify({ design_id: design.id, product: selectedProduct.value }),
+      body: JSON.stringify({
+        design_id: design.id,
+        product: selectedProduct.value,
+        amount: price.value,
+        guest_token: crypto.randomUUID(),
+      }),
     })
     if (!orderRes.ok) throw new Error('No se pudo crear el pedido')
+    const order = await orderRes.json()
 
-    status.value = 'success'
+    if (!order.checkout_url) throw new Error('No se pudo generar el pago')
+    window.location.href = order.checkout_url
   } catch (err) {
     status.value = 'error'
     errorMessage.value = err instanceof Error ? err.message : 'Algo salió mal'
@@ -101,10 +108,7 @@ async function placeOrder() {
       {{ ctaLabel }}
     </button>
 
-    <p class="status-note success" v-if="status === 'success'">
-      ¡Listo! Te avisamos por correo en cuanto esté disponible.
-    </p>
-    <p class="status-note error" v-else-if="status === 'error'">
+    <p class="status-note error" v-if="status === 'error'">
       {{ errorMessage }}. Inténtalo de nuevo.
     </p>
   </div>
@@ -267,10 +271,6 @@ async function placeOrder() {
   text-align: center;
   font-size: 0.72em;
   margin: 0;
-}
-
-.status-note.success {
-  color: #4a7c4e;
 }
 
 .status-note.error {

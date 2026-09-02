@@ -1,49 +1,36 @@
 <script setup lang="ts">
-const numberRow = [
-  { base: 'é', shift: '2', altgr: '~' },
-  { base: '"', shift: '3', altgr: '#' },
-  { base: 'è', shift: '7', altgr: '' },
-  { base: 'ç', shift: '9', altgr: '^' },
-  { base: 'à', shift: '0', altgr: '@' },
-]
+import { ref, watch, onMounted } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useCustomizationStore, fetchLayout, type LayoutKey } from '../stores/customization'
 
-const topLetters = ['A','Z','E','R','T','Y','U']
-const midLetters = ['Q','S','D','F','G','H']
+const store = useCustomizationStore()
+const { primaryAlphabet, secondaryAlphabet, hasSecondary, primaryLabel, secondaryLabel, secondaryColor } = storeToRefs(store)
 
-const bottomLetters = [
-  { base: 'W', altgr: '' },
-  { base: 'X', altgr: '' },
-  { base: 'C', altgr: '' },
-  { base: 'V', altgr: '' },
-  { base: 'N', altgr: '€' },
-]
+const primaryKeys = ref<LayoutKey[]>([])
+const secondaryKeys = ref<LayoutKey[]>([])
+
+async function loadKeys() {
+  primaryKeys.value = primaryAlphabet.value ? await fetchLayout(primaryAlphabet.value) : []
+  secondaryKeys.value = hasSecondary.value ? await fetchLayout(secondaryAlphabet.value) : []
+}
+
+onMounted(loadKeys)
+watch([primaryAlphabet, secondaryAlphabet, hasSecondary], loadKeys)
 </script>
+
 <template>
   <div class="keyboard-preview">
-    <div class="alphabet-label">Русский · AZERTY FR</div>
+    <div class="alphabet-label">
+      {{ hasSecondary ? `${primaryLabel} · ${secondaryLabel}` : primaryLabel }}
+    </div>
 
     <div class="keyboard-frame">
-      <div class="row blurred">
-        <div class="key" v-for="k in topLetters" :key="k">{{ k }}</div>
-      </div>
-
-      <div class="row row-focus stagger-even">
-        <div class="key key-complex" v-for="(k, i) in numberRow" :key="'num'+i">
-          <span class="corner shift">{{ k.shift }}</span>
-          <span class="center">{{ k.base }}</span>
-          <span class="corner altgr">{{ k.altgr }}</span>
-        </div>
-      </div>
-
-      <div class="row row-focus stagger-odd">
-        <div class="key key-complex" v-for="(k, i) in bottomLetters" :key="'bot'+i">
-          <span class="center">{{ k.base }}</span>
-          <span class="corner altgr">{{ k.altgr }}</span>
-        </div>
-      </div>
-
-      <div class="row blurred">
-        <div class="key" v-for="k in midLetters" :key="k">{{ k }}</div>
+      <div class="key" v-for="(k, i) in primaryKeys" :key="k.key_code || i">
+        <span class="corner shift" v-if="k.shift">{{ k.shift }}</span>
+        <span class="corner secondary" v-if="secondaryKeys[i]?.base" :style="{ color: secondaryColor }">{{ secondaryKeys[i].base }}</span>
+        <span class="center">{{ k.base }}</span>
+        <span class="corner altgr" v-if="k.altgr">{{ k.altgr }}</span>
+        <span class="corner secondary-altgr" v-if="secondaryKeys[i]?.altgr" :style="{ color: secondaryColor }">{{ secondaryKeys[i].altgr }}</span>
       </div>
     </div>
 
@@ -52,7 +39,6 @@ const bottomLetters = [
 </template>
 
 <style scoped>
-/* Panel 2 — variables en theme.css bajo "PANEL 2 — Vista previa del teclado" */
 .keyboard-preview {
   background: var(--panel);
   border: var(--border-component);
@@ -60,8 +46,6 @@ const bottomLetters = [
   border-radius: var(--r-xl);
   width: var(--preview-width);
   padding: 40px;
-  position: relative;
-  overflow: hidden;
   box-sizing: border-box;
 }
 
@@ -77,27 +61,15 @@ const bottomLetters = [
 
 .keyboard-frame {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.row {
-  display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-}
-
-.stagger-even {
-  transform: translateX(-14px);
-}
-
-.stagger-odd {
-  transform: translateX(14px);
 }
 
 .key {
   width: 56px;
   height: 56px;
+  padding: 5px;
   background: #fdfcf9;
   border-radius: 11px;
   display: flex;
@@ -113,21 +85,11 @@ const bottomLetters = [
   flex-shrink: 0;
 }
 
-.row-focus .key {
-  width: 58px;
-  height: 58px;
-  border-radius: 12px;
-}
-
-.key-complex {
-  padding: 5px;
-}
-
-.key-complex .center {
+.center {
   font-size: 1.2em;
 }
 
-.key-complex .corner {
+.corner {
   position: absolute;
   font-size: 0.6em;
   font-weight: 400;
@@ -135,21 +97,10 @@ const bottomLetters = [
   color: #999;
 }
 
-.key-complex .corner.shift {
-  top: 5px;
-  left: 7px;
-}
-
-.key-complex .corner.altgr {
-  bottom: 5px;
-  right: 7px;
-  color: #c17a3d;
-}
-
-.blurred .key {
-  filter: blur(2px);
-  opacity: 0.55;
-}
+.corner.shift { top: 5px; left: 7px; }
+.corner.secondary { top: 5px; right: 7px; }
+.corner.altgr { bottom: 5px; right: 7px; color: #c17a3d; }
+.corner.secondary-altgr { bottom: 5px; left: 7px; }
 
 .reference-note {
   text-align: center;

@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { ALPHABETS, useCustomizationStore } from '../stores/customization'
+import { useCustomizationStore } from '../stores/customization'
 
 const store = useCustomizationStore()
 const {
@@ -11,7 +12,12 @@ const {
   secondaryColor,
   keycapMode,
   secondaryOptions,
+  alphabets,
 } = storeToRefs(store)
+
+onMounted(() => {
+  store.fetchAlphabets()
+})
 </script>
 
 <template>
@@ -38,7 +44,7 @@ const {
     <div class="control-group">
       <label class="field-label">Alfabeto principal</label>
       <select v-model="primaryAlphabet" class="select-field">
-        <option v-for="a in ALPHABETS" :key="a.value" :value="a.value">{{ a.label }}</option>
+        <option v-for="a in alphabets" :key="a.value" :value="a.value">{{ a.label }}</option>
       </select>
     </div>
 

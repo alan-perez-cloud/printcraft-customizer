@@ -9,12 +9,12 @@ export interface AlphabetOption {
   label: string
 }
 
-export const ALPHABETS: AlphabetOption[] = [
-  { value: 'russian', label: 'Русский' },
-  { value: 'hiragana', label: 'ひらがな' },
-  { value: 'arabic', label: 'العربية' },
-  { value: 'azerty_fr', label: 'AZERTY FR' },
-]
+function formatLabel(name: string): string {
+  return name
+    .split('_')
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ')
+}
 
 const KEYCAP_LABELS: Record<KeycapMode, string> = {
   white: 'Blanco',
@@ -27,10 +27,23 @@ export const PRICES: Record<ProductType, number> = {
   print: 18,
 }
 
+const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
+
 export const useCustomizationStore = defineStore('customization', () => {
-  // --- estado que antes vivía local en AlphabetControls ---
+  const alphabets = ref<AlphabetOption[]>([])
+
+async function fetchAlphabets() {
+  const res = await fetch(`${API_BASE}/api/v1/alphabets`)
+  if (!res.ok) return
+  const names: string[] = await res.json()
+  alphabets.value = names.map(name => ({ value: name, label: formatLabel(name) }))
+  if (!primaryAlphabet.value && alphabets.value.length > 0) {
+    primaryAlphabet.value = alphabets.value[0].value
+  }
+}
+
   const dualAlphabet = ref(false)
-  const primaryAlphabet = ref('russian')
+  const primaryAlphabet = ref('')
   const secondaryAlphabet = ref('')
   const defaultSecondaryColor = '#2a2a2a'
   const secondaryColor = ref(defaultSecondaryColor)
@@ -41,14 +54,14 @@ export const useCustomizationStore = defineStore('customization', () => {
   }
 
   const secondaryOptions = computed(() =>
-    ALPHABETS.filter(a => a.value !== primaryAlphabet.value)
+    alphabets.value.filter(a => a.value !== primaryAlphabet.value)
   )
 
   const primaryLabel = computed(
-    () => ALPHABETS.find(a => a.value === primaryAlphabet.value)?.label ?? primaryAlphabet.value
+    () => alphabets.value.find(a => a.value === primaryAlphabet.value)?.label ?? primaryAlphabet.value
   )
   const secondaryLabel = computed(
-    () => ALPHABETS.find(a => a.value === secondaryAlphabet.value)?.label ?? ''
+    () => alphabets.value.find(a => a.value === secondaryAlphabet.value)?.label ?? ''
   )
   const keycapLabel = computed(() => KEYCAP_LABELS[keycapMode.value])
 
@@ -58,7 +71,6 @@ export const useCustomizationStore = defineStore('customization', () => {
     hasSecondary.value ? `${primaryLabel.value} + ${secondaryLabel.value}` : primaryLabel.value
   )
 
-  // snapshot que se guarda como `config` del design (mismo shape que espera el backend)
   const designConfig = computed(() => ({
     primary_alphabet: primaryAlphabet.value,
     secondary_alphabet: hasSecondary.value ? secondaryAlphabet.value : null,
@@ -67,6 +79,8 @@ export const useCustomizationStore = defineStore('customization', () => {
   }))
 
   return {
+    alphabets,
+    fetchAlphabets,
     dualAlphabet,
     primaryAlphabet,
     secondaryAlphabet,
@@ -83,3 +97,17 @@ export const useCustomizationStore = defineStore('customization', () => {
     designConfig,
   }
 })
+
+export interface LayoutKey {
+  key_code: string
+  base: string
+  shift?: string | null
+  altgr?: string | null
+  altgr_shift?: string | null
+}
+
+export async function fetchLayout(alphabetName: string): Promise<LayoutKey[]> {
+  const res = await fetch(`${API_BASE}/api/v1/keyboard-layouts/${alphabetName}`)
+  if (!res.ok) return []
+  return res.json()
+}
