@@ -160,7 +160,7 @@ async function placeOrder() {
 }
 
 .summary-label {
-  color: #a39a85;
+  color: var(--ink);
   font-size: 0.85em;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -213,12 +213,15 @@ async function placeOrder() {
 }
 
 .product-option:hover {
-  border-color: #d9b48f;
+  border-color: var(--subtle);
+  box-shadow: 0 6px 18px rgba(32, 43, 29, 0.08);
+  transform: translateY(-1px);
 }
 
 .product-option.active {
-  border-color: #c17a3d;
-  background: #fbf3ea;
+  border-color: var(--accent);
+  background: rgba(204, 241, 204, 0.438);
+  box-shadow: 0 6px 20px rgba(32, 43, 29, 0.10);
 }
 
 .option-top {
@@ -236,12 +239,12 @@ async function placeOrder() {
 .option-price {
   font-size: 0.9em;
   font-weight: 700;
-  color: #c17a3d;
+  color: var(--ink);
 }
 
 .option-description {
   font-size: 0.75em;
-  color: #a39a85;
+  color: var(--muted);
   line-height: 1.4;
 }
 

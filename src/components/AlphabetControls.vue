@@ -82,17 +82,23 @@ onMounted(() => {
       <label class="field-label">Estilo de tecla</label>
       <div class="mode-buttons">
         <button
-          v-for="mode in ['white','black','gray']"
-          :key="mode"
-          :class="['mode-btn', mode, { active: keycapMode === mode }]"
-          @click="keycapMode = mode as any"
-        ></button>
+  v-for="mode in ['white', 'black', 'gray']"
+  :key="mode"
+  :class="['mode-btn', mode, { active: keycapMode === mode }]"
+  @click="keycapMode = mode as any"
+>
+  {{ mode === 'black' ? 'A' : 'A' }}
+</button>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+
+.mode-btn.black {
+  color: white;
+}
 /* Panel 1 — variables en theme.css bajo "PANEL 1 — Controles de alfabeto" */
 .controls-panel {
   background: var(--panel);

@@ -14,33 +14,32 @@
   /* --------------------------------------------------------------
      FONDO DE LA PÁGINA (el body, detrás de los 3 paneles)
      -------------------------------------------------------------- */
-  --canvas: #d9d4cb;        /* fondo de toda la página */
---panel: #f7f4ef;         /* fondo de las tarjetas (sidebar, stage, "Tu pedido") */
---ink: #161513;           /* color de texto principal */
---muted: #6e6a64;         /* texto secundario (labels) */
---border-component: 1px solid rgba(118, 119, 118, 0.288); /* borde de los componentes */
---controls-shadow: var(--accent);  /* sombra de los controles */
---controls-radius: 12px;   /* radio de esquina — controles */
---padding-component: 24px;   /* padding de los componentes */
---subtle: #a39e96;        /* texto terciario, muy tenue */
---accent: #1e3a34;        /* color del botón "Comprar" y selecciones activas */
---accent-fg: #f3efe8;     /* color del texto sobre el acento */
---line: color-mix(in oklab, var(--ink) 10%, transparent); /* borde fino de 1px compartido */
---stage: #cfc9be;         /* fondo del recuadro de previsualización del teclado */
---font-display-family: "Syne", system-ui, sans-serif;  /* tipografía de títulos */
---font-body: "Sora", system-ui, sans-serif;             /* tipografía del resto del texto/UI */
---font-size: 0.72e;             /* tamaño base de fuente */
---r-sm: 12px;   /* radio de esquina — elementos chicos */
---r-md: 16px;   /* radio de esquina — elementos medianos */
---r-lg: 22px;   /* radio de esquina — tarjetas/botones grandes */
---r-xl: 28px;   /* radio de esquina — paneles */
---r-2xl: 36px;  /* radio de esquina — contenedores más grandes (stage) */
---elev-panel: 0 0 0 1px color-mix(in oklab, var(--ink) 6%, transparent), /* sombra/borde exterior de los 3 divs (panel + stage) */
-  0 16px 40px color-mix(in oklab, var(--ink) 10%, transparent);
+  --canvas: #eef1ea;        /* fondo de toda la página */
+  --panel: #f1f3ee;        /* fondo de las tarjetas (sidebar, stage, "Tu pedido") */
+  --ink: #202b1d;          /* color de texto principal */
+  --muted: #7d8971;        /* texto secundario (labels) */
+  --border-component: 1px solid rgba(63, 74, 52, 0.16); /* borde de los componentes */
+  --controls-shadow: var(--accent);  /* sombra de los controles */
+  --controls-radius: 12px;   /* radio de esquina — controles */
+  --padding-component: 24px;   /* padding de los componentes */
+  --subtle: #a8b39d;        /* texto terciario, muy tenue */
+  --accent: #2f4a34;        /* color del botón "Comprar" y selecciones activas */
+  --accent-fg: #f1f5ec;     /* color del texto sobre el acento */
+  --line: color-mix(in oklab, var(--ink) 10%, transparent); /* borde fino de 1px compartido */
+  --stage: #dfe6d6;         /* fondo del recuadro de previsualización del teclado */
+  --font-display-family: "Syne", system-ui, sans-serif;  /* tipografía de títulos */
+  --font-body: "Sora", system-ui, sans-serif;             /* tipografía del resto del texto/UI */
+  --font-size: 0.72em;             /* tamaño base de fuente */
+  --r-sm: 12px;   /* radio de esquina — elementos chicos */
+  --r-md: 16px;   /* radio de esquina — elementos medianos */
+  --r-lg: 22px;   /* radio de esquina — tarjetas/botones grandes */
+  --r-xl: 28px;   /* radio de esquina — paneles */
+  --r-2xl: 36px;  /* radio de esquina — contenedores más grandes (stage) */
+  --elev-panel: 0 0 0 1px color-mix(in oklab, var(--ink) 6%, transparent), /* sombra/borde exterior de los 3 divs (panel + stage) */
+    0 16px 40px color-mix(in oklab, var(--ink) 10%, transparent);
 }
 
 body {
   margin: 0;
   background: var(--canvas);
-
 }
